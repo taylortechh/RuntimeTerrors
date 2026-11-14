@@ -10,15 +10,15 @@ public class diagnostics {
         String tempdir = System.getProperty("java.io.tmpdir");
         ProcessBuilder pb1 = new ProcessBuilder("powershell.exe", "-Command", "Get-CimInstance Win32_VideoController | Select-Object Name, AdapterRAM; Get-CimInstance Win32_PhysicalMemory | Select-Object Capacity, Speed");
         ProcessBuilder pb2 = new ProcessBuilder("systeminfo");
-        Path filePath = Path.of(tempdir, "info.txt");
-        pb1.redirectOutput(filePath.toFile());
-        pb2.redirectOutput(ProcessBuilder.Redirect.appendTo(filePath.toFile()));
+        pb1.redirectOutput(new File(tempdir + "info.txt"));
+        pb2.redirectOutput(ProcessBuilder.Redirect.appendTo(new File(tempdir + "info.txt")));
         try {
             Process process1 = pb1.start();
             process1.waitFor(100L, TimeUnit.SECONDS);
             Process process2 = pb2.start();
             process2.waitFor(100L, TimeUnit.SECONDS);
 
+            Path filePath = Path.of(tempdir, "info.txt");
             String content = Files.readString(filePath);
             return content;
         }
