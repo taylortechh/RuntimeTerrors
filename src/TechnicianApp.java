@@ -65,6 +65,9 @@ public class TechnicianApp extends Application{
                         ticketList.getChildren().add(ticketBox);
                     }
                 });
+
+
+
         // Main layout
         VBox layout = new VBox(25);
         layout.setAlignment(Pos.TOP_CENTER);
