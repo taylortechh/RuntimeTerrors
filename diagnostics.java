@@ -5,8 +5,7 @@ import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 
 public class diagnostics {
-    public static void main(String[] args) {
-
+    public static String clientInfo() {
         String tempdir = System.getProperty("java.io.tmpdir");
         ProcessBuilder pb1 = new ProcessBuilder("powershell.exe", "-Command", "Get-CimInstance Win32_VideoController | Select-Object Name, AdapterRAM; Get-CimInstance Win32_PhysicalMemory | Select-Object Capacity, Speed");
         ProcessBuilder pb2 = new ProcessBuilder("systeminfo");
@@ -20,22 +19,13 @@ public class diagnostics {
 
             Path filePath = Path.of(tempdir, "info.txt");
             String content = Files.readString(filePath);
-            System.out.println(content);
+            return content;
         }
 
-        catch (IOException e) {
-            return;
+        catch (IOException | InterruptedException e) {
+            System.out.println("Error: Diagnostic collection has been interrupted.");
+            return "";
         }
-
-        catch (InterruptedException e) {
-            return;
-        }
-
-
-        
-
-
-
     }
 }
 
