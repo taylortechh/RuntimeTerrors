@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -52,14 +53,18 @@ public class TechnicianApp extends Application{
 
         // for when the tech pushes the button it loads the information
         loadButton.setOnAction(event -> {
+                    int count = technician.tickets.size();
+                    notifications.setText("Notifications: " + count);
+                    welcome.setText("Welcome! you have " + count + " new supports tickets.");
+                    ticketList.getChildren().clear();
+                    for (String ticket : technician.tickets) {
+                        TextArea ticketBox = new TextArea(ticket);
+                        ticketBox.setEditable(false);
+                        ticketBox.setWrapText(true);
 
-            ticketList.getChildren().setAll(
-                    //getting ticket from backend
-                    //display ticket here
-            );
-
-        });
-
+                        ticketList.getChildren().add(ticketBox);
+                    }
+                });
         // Main layout
         VBox layout = new VBox(25);
         layout.setAlignment(Pos.TOP_CENTER);
@@ -77,6 +82,7 @@ public class TechnicianApp extends Application{
 
         stage.setTitle("Technician Portal");
         stage.setScene(scene);
+        technician.serverSide();
         stage.show();
     }
 
