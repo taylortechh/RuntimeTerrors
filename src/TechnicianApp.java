@@ -8,6 +8,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 
 public class TechnicianApp extends Application{
@@ -66,7 +69,12 @@ public class TechnicianApp extends Application{
                     }
                 });
 
+        Button terminateButton = new Button("Terminate");
+        terminateButton.setStyle("-fx-background-color: #D94A4A; -fx-text-fill: white;");
+        terminateButton.setOnAction(event -> confirmAndTerminate());
 
+        HBox buttons = new HBox(15, loadButton, terminateButton);
+        buttons.setAlignment(Pos.CENTER);
 
         // Main layout
         VBox layout = new VBox(25);
@@ -76,7 +84,7 @@ public class TechnicianApp extends Application{
         layout.getChildren().addAll(
                 header,
                 welcome,
-                loadButton,
+                buttons,
                 ticketList
         );
 
@@ -85,8 +93,31 @@ public class TechnicianApp extends Application{
 
         stage.setTitle("Technician Portal");
         stage.setScene(scene);
+        stage.setOnCloseRequest(event -> {
+            event.consume();
+            confirmAndTerminate();
+        });
         technician.serverSide();
         stage.show();
+    }
+
+    private void confirmAndTerminate() {
+        Alert confirm = new Alert(
+                Alert.AlertType.CONFIRMATION,
+                "Stop the server and close the dashboard?",
+                ButtonType.YES, ButtonType.NO);
+        confirm.setHeaderText(null);
+        confirm.showAndWait().ifPresent(answer -> {
+            if (answer == ButtonType.YES) {
+                terminate();
+            }
+        });
+    }
+
+    private void terminate() {
+        technician.stopServer();
+        Platform.exit();
+        System.exit(0);
     }
 
     public static void main(String[] args) {
