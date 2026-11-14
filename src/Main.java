@@ -33,7 +33,7 @@ public class Main extends Application{
     @Override
     public void start(Stage stage){
         //title
-        Label title = new Label("Tech Support");
+        Label title = new Label("TechnicianAssist");
         title.setStyle("-fx-font-size: 30px; -fx-font-weight: bold;");
 
         // welcome message
@@ -61,8 +61,6 @@ public class Main extends Application{
         VBox layout = new VBox(20);
         layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(30));
-
-
 
         ticketButton.setOnAction(e -> {
             VBox ticketLayout = new VBox(20);
@@ -115,7 +113,6 @@ public class Main extends Application{
                         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/ticket")).POST(HttpRequest.BodyPublishers.ofString(support)).build();
                         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
                         System.out.print(response.body());
-
                     };
                 }
 
