@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,7 +31,7 @@ public class diagnostics {
     }
 
     public static void SaveInfo(Path outputFile) throws IOException {
-    String diagnosticData = clientInfo();
+        String diagnosticData = clientInfo();
 
         if (diagnosticData.isBlank()) {
             throw new IOException("No diagnostic data was returned.");
@@ -40,22 +41,21 @@ public class diagnostics {
 
             writer.write("Line\tDiagnosticOutput");
             writer.newLine();
-    
+
             String[] lines = diagnosticData.split("\\R");
 
             for (int i = 0; i < lines.length; i++) {
-            // Quote the field and escape embedded double quotes.
+                // Quote the field and escape embedded double quotes.
                 String escapedLine = "\"" + lines[i].replace("\"", "\"\"") + "\"";
 
-            writer.write(Integer.toString(i + 1));
-            writer.write('\t');
-            writer.write(escapedLine);
-            writer.newLine();
+                writer.write(Integer.toString(i + 1));
+                writer.write('\t');
+                writer.write(escapedLine);
+                writer.newLine();
             }
         }
     }
 }
-
 
 
 
