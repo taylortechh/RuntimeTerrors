@@ -56,6 +56,9 @@ public class Main extends Application{
         Button ticketButton = new Button("Create Ticket");
         Button viewButton = new Button("View Report");
         Button sendButton = new Button("Scan and send to IT");
+        Button backButton = new Button("Back");
+
+
 
         // Arrange buttons and tile vertically
         VBox layout = new VBox(20);
@@ -72,7 +75,8 @@ public class Main extends Application{
             ticketLayout.getChildren().addAll(
                     problem,
                     problemInput,
-                    sendButton
+                    sendButton,
+                    backButton
             );
 
 
@@ -91,8 +95,18 @@ public class Main extends Application{
             viewLayout.setAlignment(Pos.CENTER);
             viewLayout.setPadding(new Insets(30));
 
+            Label reviewLabel = new Label("Report overview");
+            TextArea reportDisplay = new TextArea(this.report.isEmpty() ? "No report created yet." : this.report);
+            reportDisplay.setEditable(false);
+            reportDisplay.setWrapText(true);
+
             Scene viewScene = new Scene(viewLayout, 600, 450);
 
+            viewLayout.getChildren().addAll(
+                    reviewLabel,
+                    reportDisplay,
+                    backButton
+            );
             stage.setTitle("TechAssist - IT Support");
             stage.setScene(viewScene);
             stage.show();
@@ -135,6 +149,7 @@ public class Main extends Application{
         );
 
         Scene homeScene = new Scene(layout, 600, 450);
+        backButton.setOnAction(ev -> stage.setScene(homeScene));
 
         stage.setTitle("TechAssist - IT Support");
         stage.setScene(homeScene);
